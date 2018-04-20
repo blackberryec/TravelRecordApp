@@ -3,19 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TravelRecordApp"
              x:Class="TravelRecordApp.MainPage">
+
     <StackLayout VerticalOptions="Center"
                  Margin="20">
         <Entry x:Name="emailEntry"
                Placeholder="Email address"
+               TextColor="{StaticResource blueColor}"
+               Text="Test"
                Keyboard="Email"/>
         <Entry x:Name="passwordEntry"
                Placeholder="Password"
+               TextColor="{StaticResource blueColor}"
+               Text="Test"
                IsPassword="True"/>
         <Button Text="Login"
                 Margin="0,50,0,0"
                 x:Name="LoginButton"
-                Clicked="LoginButton_Clicked"
-                BackgroundColor="DodgerBlue"
-                TextColor="White"/>
+                Clicked="LoginButton_Clicked"/>
     </StackLayout>
 </ContentPage>
