@@ -20,11 +20,13 @@ namespace TravelRecordApp.Droid
 
             base.OnCreate(bundle);
             
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.FormsMaps.Init(this, bundle);
+            
             string dbName = "travel_db.sqlite";
             string folderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             string fullPath = Path.Combine(folderPath, dbName);
-
-            global::Xamarin.Forms.Forms.Init(this, bundle);
+            
             LoadApplication(new App(fullPath));
         }
     }
