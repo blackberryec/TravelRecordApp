@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -12,6 +13,10 @@ namespace TravelRecordApp
 		public MainPage()
 		{
 			InitializeComponent();
+		    
+		    var assembly = typeof(MainPage);
+		    
+		    iconImage.Source = ImageSource.FromResource("TravelRecordApp.Asserts.Images.plane.png", assembly);
 		}
 
         private void LoginButton_Clicked(object sender, EventArgs e)
