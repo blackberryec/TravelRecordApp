@@ -147,13 +147,13 @@
     <BundleResource Include="Resources\add%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\contasts.png" />
+    <BundleResource Include="Resources\person.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\contasts%402x.png" />
+    <BundleResource Include="Resources\person%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\contasts%403x.png" />
+    <BundleResource Include="Resources\person%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\home.png" />
