@@ -36,13 +36,18 @@ namespace TravelRecordApp
 
             locationMap.MoveToRegion(span);
 
-            using (SQLiteConnection connection = new SQLiteConnection(App.DatabaseLocation))
+            /*using (SQLiteConnection connection = new SQLiteConnection(App.DatabaseLocation))
             {
                 connection.CreateTable<Post>();
                 var posts = connection.Table<Post>().ToList();
 
                 DisplayInMap(posts);
             }
+            */
+            
+            var posts = await App.MobileService.GetTable<Post>().Where(p => p.UserId == App.user.Id).ToListAsync();
+            
+            DisplayInMap(posts);
         }
 
         protected override void OnDisappearing()

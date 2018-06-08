@@ -18,13 +18,14 @@ namespace TravelRecordApp
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
-            using (SQLiteConnection conn = new SQLiteConnection(App.DatabaseLocation))
-            {
-                var postTable = conn.Table<Post>().ToList();
+            //using (SQLiteConnection conn = new SQLiteConnection(App.DatabaseLocation))
+            //{
+                //var postTable = conn.Table<Post>().ToList();
+                var postTable = await App.MobileService.GetTable<Post>().Where(p => p.UserId == App.user.Id).ToListAsync();
 
                 var categories = (from p in postTable
                                   orderby p.CategoryId
@@ -47,7 +48,7 @@ namespace TravelRecordApp
                 categoryListView.ItemsSource = categoriesCount;
 
                 postCountLabel.Text = postTable.Count.ToString();
-            }
+            //}
         }
     }
 }

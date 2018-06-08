@@ -32,14 +32,12 @@ namespace TravelRecordApp
             venueListView.ItemsSource = venues;
         }
 
-        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             try
             {
                 var selectedVenue = venueListView.SelectedItem as Venue;
                 var firstCategory = selectedVenue.categories.FirstOrDefault();
-
-
                 Post post = new Post()
                 {
                     Experience = experienceEntry.Text,
@@ -49,33 +47,37 @@ namespace TravelRecordApp
                     Distance = selectedVenue.location.distance,
                     Latitude = selectedVenue.location.lat,
                     Longitude = selectedVenue.location.lng,
-                    VenueName = selectedVenue.name
+                    VenueName = selectedVenue.name,
+                    UserId = App.user.Id
                 };
 
-                using (SQLiteConnection connection = new SQLiteConnection(App.DatabaseLocation))
-                {
-                    connection.CreateTable<Post>();
-                    int rows = connection.Insert(post);
+                //using (SQLiteConnection connection = new SQLiteConnection(App.DatabaseLocation))
+                //{
+                //    connection.CreateTable<Post>();
+                //    int rows = connection.Insert(post);
 
-                    if (rows > 0)
-                    {
-                        DisplayAlert("Success", "Experience successfuly inserted", "Ok");
-                    }
-                    else
-                    {
-                        DisplayAlert("Failure", "Experience failured to be inserted", "Ok");
-                    }
-                }
+                //    if (rows > 0)
+                //    {
+                //        DisplayAlert("Success", "Experience successfuly inserted", "Ok");
+                //    }
+                //    else
+                //    {
+                //        DisplayAlert("Failure", "Experience failured to be inserted", "Ok");
+                //    }
+                //}
+
+                await App.MobileService.GetTable<Post>().InsertAsync(post);
+                await DisplayAlert("Success", "Experience successfuly inserted", "Ok");
             }
             catch(NullReferenceException nre)
             {
                 Console.WriteLine(nre);
-                throw;
+                await DisplayAlert("Failure", "Experience failured to be inserted", "Ok");
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                throw;
+                await DisplayAlert("Failure", "Experience failured to be inserted", "Ok");
             }
         }
     }
