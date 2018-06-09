@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Plugin.Geolocator;
 using SQLite;
 using TravelRecordApp.Helpers;
-using TravelRecordApp.Logic;
 using TravelRecordApp.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,9 +15,13 @@ namespace TravelRecordApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewTravelPage : ContentPage
     {
+        Post post;
         public NewTravelPage()
         {
             InitializeComponent();
+
+            post = new Post();
+            containerStackLayout.BindingContext = post;
         }
 
         protected override async void OnAppearing()
@@ -28,7 +31,7 @@ namespace TravelRecordApp
             var locator = CrossGeolocator.Current;
             var position = await locator.GetPositionAsync();
 
-            var venues = await VenueLogic.GetVenues(position.Latitude, position.Longitude);
+            var venues = await Venue.GetVenues(position.Latitude, position.Longitude);
             venueListView.ItemsSource = venues;
         }
 
@@ -38,18 +41,17 @@ namespace TravelRecordApp
             {
                 var selectedVenue = venueListView.SelectedItem as Venue;
                 var firstCategory = selectedVenue.categories.FirstOrDefault();
-                Post post = new Post()
-                {
-                    Experience = experienceEntry.Text,
-                    CategoryId = firstCategory.id,
-                    CategoryName = firstCategory.name,
-                    Address = selectedVenue.location.address,
-                    Distance = selectedVenue.location.distance,
-                    Latitude = selectedVenue.location.lat,
-                    Longitude = selectedVenue.location.lng,
-                    VenueName = selectedVenue.name,
-                    UserId = App.user.Id
-                };
+
+                //Experience have set by binding context
+                //post.Experience = experienceEntry.Text;
+                post.CategoryId = firstCategory.id;
+                post.CategoryName = firstCategory.name;
+                post.Address = selectedVenue.location.address;
+                post.Distance = selectedVenue.location.distance;
+                post.Latitude = selectedVenue.location.lat;
+                post.Longitude = selectedVenue.location.lng;
+                post.VenueName = selectedVenue.name;
+                post.UserId = App.user.Id;
 
                 //using (SQLiteConnection connection = new SQLiteConnection(App.DatabaseLocation))
                 //{
@@ -66,10 +68,10 @@ namespace TravelRecordApp
                 //    }
                 //}
 
-                await App.MobileService.GetTable<Post>().InsertAsync(post);
+                Post.Insert(post);
                 await DisplayAlert("Success", "Experience successfuly inserted", "Ok");
             }
-            catch(NullReferenceException nre)
+            catch (NullReferenceException nre)
             {
                 Console.WriteLine(nre);
                 await DisplayAlert("Failure", "Experience failured to be inserted", "Ok");

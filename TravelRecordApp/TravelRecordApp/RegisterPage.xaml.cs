@@ -12,9 +12,14 @@ namespace TravelRecordApp
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class RegisterPage : ContentPage
 	{
+	    User user;
+	    
 		public RegisterPage ()
 		{
 			InitializeComponent ();
+		    
+		    user = new User();
+		    containerStackLayout.BindingContext = user;
 		}
 
 	    private async void RegisterButton_OnClicked(object sender, EventArgs e)
@@ -22,13 +27,14 @@ namespace TravelRecordApp
 	        if (passwordEntry.Text == confirmpasswordEntry.Text)
 	        {
 	            // we can register the user
-	            User user = new User()
-	            {
-	                Email = emailEntry.Text,
-	                Password = passwordEntry.Text
-	            };
+	            //User user = new User()
+	            //{
+	            //    Email = emailEntry.Text,
+	            //    Password = passwordEntry.Text
+	            //};
+	            //deleted beacause already have binding context and INotify property 
 
-                await App.MobileService.GetTable<User>().InsertAsync(user);
+                User.Register(user);
 	        }
 	        else
 	        {
