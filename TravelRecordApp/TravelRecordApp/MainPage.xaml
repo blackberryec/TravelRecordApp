@@ -14,20 +14,23 @@
         <Entry x:Name="emailEntry"
                Placeholder="Email address"
                TextColor="{StaticResource blueColor}"
-               Text="Test"
+               Text="{Binding Email, Mode=TwoWay}"
                Keyboard="Email"/>
         <Entry x:Name="passwordEntry"
                Placeholder="Password"
                TextColor="{StaticResource blueColor}"
-               Text="Test"
+               Text="{Binding Password, Mode=TwoWay}"
                IsPassword="True"/>
         <Button Text="Login"
                 Margin="0,50,0,0"
                 x:Name="LoginButton"
-                Clicked="LoginButton_Clicked"/>
+                Command="{Binding LoginCommand}"
+                CommandParameter="{Binding User}"/>
+                <!--Clicked="LoginButton_OnClicked"-->
         <Button x:Name="registerUserButton"
                 Text="Register"
                 HorizontalOptions="End"
-                Clicked="RegisterUserButton_OnClicked"/>
+                Command="{Binding RegisterNavigationCommand}"/>
+                <!--Clicked="RegisterUserButton_OnClicked"-->
     </StackLayout>
 </ContentPage>

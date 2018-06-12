@@ -30,15 +30,14 @@ namespace TravelRecordApp.Model
             set
             {
                 email = value;
-
+                OnPropertyChanged("Email");
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
         //public string Password { get; set; }
         private string password;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public string Password
         {
@@ -46,10 +45,22 @@ namespace TravelRecordApp.Model
             set
             {
                 password = value;
-
+                OnPropertyChanged("Password");
             }
         }
 
+        
+        private string confirmPassword;
+
+        public string ConfirmPassword
+        {
+            get { return confirmPassword; }
+            set
+            {
+                confirmPassword = value;
+                OnPropertyChanged("ConfirmPassword");
+            }
+        }
 
         public static async Task<bool> Login(string email, string password)
         {
