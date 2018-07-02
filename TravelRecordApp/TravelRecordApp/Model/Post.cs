@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SQLite;
+using TravelRecordApp.Helpers;
 
 namespace TravelRecordApp.Model
 {
@@ -154,7 +156,43 @@ namespace TravelRecordApp.Model
                 OnPropertyChanged("UserId");
             }
         }
-        
+
+        private Venue venue;
+
+        [JsonIgnore]
+        public Venue Venue
+        {
+            get { return venue; }
+            set
+            {
+                venue = value;
+
+                if (venue.categories != null)
+                {
+                    var firstCategory = venue.categories.FirstOrDefault();
+
+                    if (firstCategory != null)
+                    {
+                        CategoryId = firstCategory.id;
+                        CategoryName = firstCategory.name;
+                    }
+                }
+
+                if (venue.location != null)
+                {
+                    Address = venue.location.address;
+                    Distance = venue.location.distance;
+                    Latitude = venue.location.lat;
+                    Longitude = venue.location.lng;
+                }
+              
+                VenueName = venue.name;
+                UserId = App.user.Id;
+                
+                OnPropertyChanged("Venue");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
